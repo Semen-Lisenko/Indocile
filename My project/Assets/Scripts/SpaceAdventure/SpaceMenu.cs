@@ -10,7 +10,8 @@ public class SpaceMenu : MonoBehaviour
 
     [SerializeField] public GameObject Canvas;
     [SerializeField] public GameObject AdventureLoadScreen;
-    [SerializeField] public float AdventureLoadScreenTime;
+    [SerializeField] public float ALSTime;
+    [SerializeField] public float ALSTimeOffset;
     public bool inGame = true;
     public void Clear()
     {
@@ -47,10 +48,11 @@ public class SpaceMenu : MonoBehaviour
             yield break;
         }
         AdventureLoadScreen.SetActive(true);
-        yield return new WaitForSeconds(3f);
-        AdventureLoadScreen.SetActive(false);
-        SceneManager.LoadScene(SelectedPlanetScene);
+        yield return new WaitForSeconds(ALSTimeOffset);
         Canvas.SetActive(false);
+        SceneManager.LoadScene(SelectedPlanetScene);
+        yield return new WaitForSeconds(ALSTime - ALSTimeOffset);
+        AdventureLoadScreen.SetActive(false);
         yield break;
     }
 }
