@@ -12,6 +12,7 @@ public class SpaceMenu : MonoBehaviour
     [SerializeField] public GameObject AdventureLoadScreen;
     [SerializeField] public float ALSTime;
     [SerializeField] public float ALSTimeOffset;
+
     public bool inGame = true;
     public void Clear()
     {
