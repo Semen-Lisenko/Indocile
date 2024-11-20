@@ -2,6 +2,17 @@ using UnityEngine;
 
 public class IndustrialBuildings : Building
 {
+    public GameObject honeyFactoryLevel1Prefab;
+    public GameObject honeyFactoryLevel2Prefab;
+    public GameObject honeyFactoryLevel3Prefab;
+
+    public GameObject energyHoneyLevel1Prefab;
+    public GameObject energyHoneyLevel2Prefab;
+    public GameObject energyHoneyLevel3Prefab;
+
+    public GameObject eatingHoneyHoneyLevel1Prefab;
+    public GameObject eatingHoneyLevel2Prefab;
+    public GameObject eatingHoneyLevel3Prefab;
     public enum IndustryType
     {
         BuildingHoneyFactory,

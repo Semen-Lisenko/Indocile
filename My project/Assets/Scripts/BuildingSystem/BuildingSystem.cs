@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class BuildingSystem : MonoBehaviour
 {
-    [SerializeField]public GameObject buildingPrefab;
-
+    [SerializeField] private GameObject buildingPrefab; 
     private Building building;
     private GameObject planetCenter;
     private GameObject previewObject;
@@ -17,16 +16,15 @@ public class BuildingSystem : MonoBehaviour
         planetCenter = building.planetCenter;
         radius = building.radius;
 
+        // Создаем предварительный объект
         previewObject = Instantiate(buildingPrefab, planetCenter.transform);
-        Color color = Color.green;
-        color.a = 0.25f;
-        previewObject.GetComponent<SpriteRenderer>().color = color;
+        SetPreviewObjectColor(Color.green, 0.25f);
         previewObject.SetActive(false);
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("BUILD"))
+        if (Input.GetKeyDown(KeyCode.B)) // я поменял с ButtonDown("BUILD") на время
         {
             isBuildingActive = !isBuildingActive;
             previewObject.SetActive(isBuildingActive); 
@@ -34,11 +32,15 @@ public class BuildingSystem : MonoBehaviour
 
         if (isBuildingActive)
         {
-            Build();
+            UpdatePreviewPosition();
+            if (Input.GetMouseButtonDown(0))
+            {
+                Build(buildingPrefab);
+            }
         }
     }
 
-    public void Build()
+    private void UpdatePreviewPosition()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
@@ -50,10 +52,25 @@ public class BuildingSystem : MonoBehaviour
         float y = planetCenter.transform.position.y + radius * Mathf.Sin(angle);
 
         previewObject.transform.position = new Vector3(x, y, 0);
+    }
 
-        if (Input.GetMouseButtonDown(0))
-        {
-            Instantiate(buildingPrefab, previewObject.transform.position, Quaternion.identity, planetCenter.transform);
-        }
+    public void Build(GameObject go)
+    {
+        Instantiate(go, previewObject.transform.position, Quaternion.identity, planetCenter.transform);
+    }
+
+    public void SetPreviewObject(GameObject newPrefab)
+    {
+        Destroy(previewObject);
+
+        previewObject = Instantiate(newPrefab, planetCenter.transform);
+        SetPreviewObjectColor(Color.green, 0.25f); 
+        previewObject.SetActive(isBuildingActive);
+    }
+
+    private void SetPreviewObjectColor(Color color, float alpha)
+    {
+        color.a = alpha;
+        previewObject.GetComponent<SpriteRenderer>().color = color;
     }
 }
