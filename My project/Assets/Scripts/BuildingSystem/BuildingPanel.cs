@@ -1,9 +1,14 @@
 using UnityEngine;
+using System.Collections;
 
 public class BuildingPanel : MonoBehaviour
 {
     public bool isOpened = false;
     public GameObject panel;
+    public void Start()
+    {
+        StartCoroutine(Panel());
+    }
     public void OpenPanel()
     {
         panel.SetActive(true);
@@ -14,18 +19,19 @@ public class BuildingPanel : MonoBehaviour
         panel.SetActive(false);
         isOpened = false;
     }
-    void Update()
+    public IEnumerator Panel()
     {
-        if (Input.GetKeyDown(KeyCode.I))
-        {
-            if (isOpened)
-            {
-                ClosePanel();
-            }
-            else
-            {
-                OpenPanel();
-            }
-        }
+        yield return new WaitUntil(() => Input.GetButtonDown("BuildingPanel"));
+
+        OpenPanel();
+
+        yield return new WaitUntil(() => Input.GetButtonUp("BuildingPanel"));
+        yield return new WaitUntil(() => Input.GetButtonDown("BuildingPanel"));
+
+        ClosePanel();
+
+        yield return new WaitUntil(() => Input.GetButtonUp("BuildingPanel"));
+
+        StartCoroutine(Panel());
     }
 }

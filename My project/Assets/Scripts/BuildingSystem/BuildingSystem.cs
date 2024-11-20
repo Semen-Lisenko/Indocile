@@ -2,11 +2,13 @@ using UnityEngine;
 
 public class BuildingSystem : MonoBehaviour
 {
+    [SerializeField]public GameObject buildingPrefab;
+
     private Building building;
     private GameObject planetCenter;
-    private float radius;
-    public GameObject buildingPrefab;
     private GameObject previewObject;
+
+    private float radius;
     private bool isBuildingActive = false;
 
     void Start()
@@ -24,7 +26,7 @@ public class BuildingSystem : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B))
+        if (Input.GetButtonDown("BUILD"))
         {
             isBuildingActive = !isBuildingActive;
             previewObject.SetActive(isBuildingActive); 

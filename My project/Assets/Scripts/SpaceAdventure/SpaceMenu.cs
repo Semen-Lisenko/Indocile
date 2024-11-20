@@ -27,16 +27,17 @@ public class SpaceMenu : MonoBehaviour
     }
     public IEnumerator MenuExecutor()
     {
-        yield return new WaitForSeconds(0.1f);
         yield return new WaitUntil(() => Input.GetButtonDown("MAP") && inGame);
 
         Canvas.SetActive(true);
 
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitUntil(() => Input.GetButtonUp("MAP") && inGame);
         yield return new WaitUntil(() => Input.GetButtonDown("MAP") || !inGame);
 
         Canvas.SetActive(false);
         StartCoroutine(MenuExecutor());
+
+        yield return new WaitUntil(() => Input.GetButtonUp("MAP") || !inGame);
     }
     public void InvokeCoroutineCP()
     {
