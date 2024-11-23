@@ -20,6 +20,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Planet4.unity
     guid: a305e6aea8fdc5640868afbf417bcf7f
+  - enabled: 1
+    path: Assets/Scenes/StartScene.unity
+    guid: 0d2193a179033e647965e1e2702775c3
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
