@@ -12,32 +12,33 @@ public class SpaceMenu : MonoBehaviour
     [SerializeField] public GameObject AdventureLoadScreen;
     [SerializeField] public float ALSTime;
     [SerializeField] public float ALSTimeOffset;
+    public bool inAdventure = false;
 
-    public bool inGame = true;
     public void Clear()
     {
         SelectedPlanetScene = "";
     }
-    public void Start()
+    public void OnEnable()
     {
         DeselectOther += Clear;
         Canvas.SetActive(false);
-        DontDestroyOnLoad(this);
         StartCoroutine(MenuExecutor());
     }
     public IEnumerator MenuExecutor()
     {
-        yield return new WaitUntil(() => Input.GetButtonDown("MAP") && inGame);
+        yield return new WaitUntil(() => Input.GetButtonDown("MAP"));
 
         Canvas.SetActive(true);
 
-        yield return new WaitUntil(() => Input.GetButtonUp("MAP") && inGame);
-        yield return new WaitUntil(() => Input.GetButtonDown("MAP") || !inGame);
+        yield return new WaitUntil(() => Input.GetButtonUp("MAP") || inAdventure);
+        yield return new WaitUntil(() => Input.GetButtonDown("MAP") || inAdventure);
 
         Canvas.SetActive(false);
-        StartCoroutine(MenuExecutor());
 
-        yield return new WaitUntil(() => Input.GetButtonUp("MAP") || !inGame);
+        yield return new WaitUntil(() => Input.GetButtonUp("MAP") || inAdventure);
+
+        inAdventure = false;
+        StartCoroutine(MenuExecutor());
     }
     public void InvokeCoroutineCP()
     {
@@ -45,16 +46,21 @@ public class SpaceMenu : MonoBehaviour
     }
     public IEnumerator ChangePlanet()
     {
-        if (Equals(SelectedPlanetScene, ""))
+        if (Equals(SelectedPlanetScene, "") || Equals(SceneManager.GetActiveScene().name, SelectedPlanetScene))
         {
             yield break;
         }
+        inAdventure = true;
         AdventureLoadScreen.SetActive(true);
         yield return new WaitForSeconds(ALSTimeOffset);
-        Canvas.SetActive(false);
+
         SceneManager.LoadScene(SelectedPlanetScene);
+        Canvas.SetActive(false);
+
         yield return new WaitForSeconds(ALSTime - ALSTimeOffset);
+
         AdventureLoadScreen.SetActive(false);
+        inAdventure = false;
         yield break;
     }
 }
