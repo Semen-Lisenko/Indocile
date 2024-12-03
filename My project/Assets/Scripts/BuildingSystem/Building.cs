@@ -72,11 +72,6 @@ public class Building : MonoBehaviour
             level++;
             HoneyResources.RemoveBuildingHoney(GetUpgradeCost());
             buildingData.income = buildingData.income * 2;
-            Debug.Log("Building " + buildingData.buildingName + " upgraded to level " + level);
-        }
-        else
-        {
-            Debug.Log("Maximum upgrade level reached!");
         }
     }
 }

@@ -4,19 +4,17 @@ using UnityEngine.UI;
 
 public class BuildingUI : MonoBehaviour
 {
-    public BuildingSystem buildingSystem; //Reference to BuildingSystem
-    public List<Button> buildingButtons; //Use a list for easier management
+    public BuildingSystem buildingSystem; // ссылка на систему строительства
+    public List<Button> buildingButtons; // все кнопки
 
     void Start()
     {
-        //Remove the old onClick listener - handled by the for loop below
         if (buildingSystem == null) {
-            Debug.LogError("BuildingUI: No BuildingSystem assigned!");
             return;
         }
 
         for (int i = 0; i < buildingButtons.Count; i++) {
-            int index = i; //Capture index for lambda expression
+            int index = i;
             buildingButtons[i].onClick.AddListener(() => SelectBuilding(index));
         }
     }
