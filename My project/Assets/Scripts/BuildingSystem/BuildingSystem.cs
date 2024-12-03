@@ -1,76 +1,116 @@
 using UnityEngine;
+using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class BuildingSystem : MonoBehaviour
 {
-    [SerializeField] private GameObject buildingPrefab; 
-    private Building building;
-    private GameObject planetCenter;
-    private GameObject previewObject;
+    public GameObject planetCenter;
+    public BuildingUI buildingUI;
+    // placed
+    public float radius = 4.5f;
+    public GameObject buildingMenu;
+    public List<BuildingData> buildingDatas;
+    public GameObject buildingPrefab;
 
-    private float radius;
+    public GameObject previewObject;
     private bool isBuildingActive = false;
+    private BuildingData selectedBuildingData;
 
     void Start()
     {
-        building = GetComponent<Building>();
-        planetCenter = building.planetCenter;
-        radius = building.radius;
-
-        // Создаем предварительный объект
-        previewObject = Instantiate(buildingPrefab, planetCenter.transform);
-        SetPreviewObjectColor(Color.green, 0.25f);
+        buildingMenu.SetActive(false);
         previewObject.SetActive(false);
+
+        HoneyResources.AddBuildingHoney(1000);
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.B)) // я поменял с ButtonDown("BUILD") на время
+        if (Input.GetMouseButtonDown(0) && isBuildingActive == false)
         {
-            isBuildingActive = !isBuildingActive;
-            previewObject.SetActive(isBuildingActive); 
+            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                Building building = hit.collider.GetComponent<Building>();
+                if (building != null)
+                {
+                    building.Upgrade();
+                }
+                else
+                {
+                    Debug.Log("Нет компонента Building");
+                }
+            }
         }
 
-        if (isBuildingActive)
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            isBuildingActive = !isBuildingActive;
+            buildingMenu.SetActive(isBuildingActive);
+            previewObject.SetActive(isBuildingActive);
+        }
+
+        if (isBuildingActive && selectedBuildingData != null)
         {
             UpdatePreviewPosition();
+
             if (Input.GetMouseButtonDown(0))
             {
-                Build(buildingPrefab);
+                PlaceBuilding();
             }
         }
     }
 
-    private void UpdatePreviewPosition()
+    void UpdatePreviewPosition()
     {
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = 0;
+        mousePosition.z = planetCenter.transform.position.z;
 
-        Vector3 direction = mousePosition - planetCenter.transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x);
-
-        float x = planetCenter.transform.position.x + radius * Mathf.Cos(angle);
-        float y = planetCenter.transform.position.y + radius * Mathf.Sin(angle);
-
-        previewObject.transform.position = new Vector3(x, y, 0);
+        Vector3 direction = (mousePosition - planetCenter.transform.position).normalized;
+        Vector3 position = planetCenter.transform.position + direction * radius;
+        previewObject.transform.position = position;
     }
 
-    public void Build(GameObject go)
+    public void SelectBuilding(BuildingData buildingData)
     {
-        Instantiate(go, previewObject.transform.position, Quaternion.identity, planetCenter.transform);
+        selectedBuildingData = buildingData;
+        previewObject = Instantiate(buildingPrefab, planetCenter.transform);
+        previewObject.name = "BuildingPreview";
+
+        Renderer previewRenderer = previewObject.GetComponent<Renderer>();
+        if (previewRenderer != null)
+        {
+            Color color = Color.green;
+            color.a = 0.25f;
+            previewRenderer.material.color = color;
+        }
     }
 
-    public void SetPreviewObject(GameObject newPrefab)
+    void PlaceBuilding()
     {
-        Destroy(previewObject);
+        Collider2D[] colliders = Physics2D.OverlapCircleAll(previewObject.transform.position, 0.5f);
 
-        previewObject = Instantiate(newPrefab, planetCenter.transform);
-        SetPreviewObjectColor(Color.green, 0.25f); 
-        previewObject.SetActive(isBuildingActive);
-    }
+        bool collisionDetected = false;
+        foreach (Collider2D collider in colliders)
+        {
+            if (collider.gameObject != previewObject && collider.GetComponent<Building>() != null)
+            {
+                collisionDetected = true;
+                break;
+            }
+        }
 
-    private void SetPreviewObjectColor(Color color, float alpha)
-    {
-        color.a = alpha;
-        previewObject.GetComponent<SpriteRenderer>().color = color;
+        if (!collisionDetected && HoneyResources.buildingHoney - selectedBuildingData.baseCost > 0)
+        {
+            GameObject buildingInstance = Instantiate(selectedBuildingData.prefab, previewObject.transform.position, Quaternion.identity);
+            buildingInstance.name = "Building";
+            buildingInstance.GetComponent<Building>().placed = true;
+            Renderer buildingRenderer = buildingInstance.GetComponent<Renderer>();
+            if (buildingRenderer != null) buildingRenderer.material.color = Color.white;
+        }
     }
 }
