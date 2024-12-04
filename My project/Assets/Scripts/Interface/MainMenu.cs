@@ -7,11 +7,6 @@ public class MainMenu : MonoBehaviour
     [SerializeField] public GameObject SettingsCanvas;
     [SerializeField] public GameObject InterfaceParent;
     [SerializeField] public Button ContinueButton;
-    public void Start()
-    {
-        PlayerPrefs.SetInt("FirstPlay", 0);
-        DontDestroyOnLoad(InterfaceParent);
-    }
     public void OnEnable()
     {
         ContinueButton.enabled = PlayerPrefs.GetInt("FirstPlay") != 0;

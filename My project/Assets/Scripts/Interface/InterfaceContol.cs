@@ -7,6 +7,10 @@ public class InterfaceContol : MonoBehaviour
     [SerializeField] public GameObject SpaceMenuCanvas;
     [SerializeField] public GameObject BreakPauseCanvas;
     public bool inGame = false;
+    private void Start()
+    {
+        DontDestroyOnLoad(this);
+    }
     public void SetInGame()
     {
         InGame.SetActive(true);
@@ -20,5 +24,6 @@ public class InterfaceContol : MonoBehaviour
         OutGame.SetActive(true);
         SpaceMenuCanvas.SetActive(false);
         BreakPauseCanvas.SetActive(false);
+        Destroy(gameObject);
     }
 }
