@@ -20,8 +20,6 @@ public class BuildingSystem : MonoBehaviour
     {
         buildingMenu.SetActive(false);
         previewObject.SetActive(false);
-
-        HoneyResources.AddBuildingHoney(1000);
     }
 
     void Update()
