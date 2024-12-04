@@ -12,11 +12,11 @@ public class Merchandise : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
-            ShopControl.ShopCart[Product.id]++;
+            APIControl.ShopCart[Product.id]++;
         }
-        else if (Input.GetMouseButton(1) && ShopControl.ShopCart[Product.id] - 1 > 0)
+        else if (Input.GetMouseButton(1) && APIControl.ShopCart[Product.id] - 1 > 0)
         {
-            ShopControl.ShopCart[Product.id]--;
+            APIControl.ShopCart[Product.id]--;
         }
     }
     public void OnMouseExit()

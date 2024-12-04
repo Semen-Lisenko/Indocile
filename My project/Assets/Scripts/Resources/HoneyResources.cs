@@ -1,17 +1,30 @@
+using System.Collections;
 using UnityEngine;
 
 public class HoneyResources : MonoBehaviour
 {
-    [SerializeField]
     public static int energyHoney {get; set;}
     public static int eatingHoney {get; set;}
     public static int buildingHoney {get; set;}
 
+    public RequestAPI _RequestAPI;
+    public void Start()
+    {
+        User user = new User();
+        user.name = PlayerPrefs.GetString("LastUsername");
+        _RequestAPI.GetPlayerResourcesCorutine(user, LoadResources);
+        StartCoroutine(UpdateServerRecources());
+    }
 
     void Update()
     {
     }
-
+    public void LoadResources(User user)
+    {
+        buildingHoney = user.resources.buildHoney;
+        energyHoney = user.resources.energyHoney;
+        eatingHoney = user.resources.eatHoney;
+    }
     public static void AddEnergyHoney(int amount)
     {
         energyHoney += amount;
@@ -46,5 +59,16 @@ public class HoneyResources : MonoBehaviour
         {
             buildingHoney -= amount;
         }
+    }
+    public IEnumerator UpdateServerRecources()
+    {
+        yield return new WaitForSecondsRealtime(180f);
+        User user = new User();
+        user.name = PlayerPrefs.GetString("LastUsername");
+        user.password = PlayerPrefs.GetString("LastPassword");
+        user.resources.eatHoney = eatingHoney;
+        user.resources.buildHoney = buildingHoney;
+        user.resources.energyHoney = energyHoney;
+        StartCoroutine(_RequestAPI.PutPlayerResourcesCorutine(user));
     }
 }

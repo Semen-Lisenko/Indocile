@@ -1,14 +1,14 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-public class ShopControl : MonoBehaviour
+public class APIControl : MonoBehaviour
 {
     public static List<int> ShopCart = new List<int>(0);
     
     public static float money;
     public static float totalSum;
 
-    public ShopAPI ShopAPI;
+    public RequestAPI RequestAPI;
 
     public TMP_InputField RegUserNameF;
     public TMP_InputField RegEnergyHF;
@@ -48,7 +48,7 @@ public class ShopControl : MonoBehaviour
             user.password = RegPasswordF.text;
             PlayerPrefs.SetString("LastUsername", user.name);
             PlayerPrefs.SetString("LastPassword", user.password);
-            StartCoroutine(ShopAPI.CreatePlayerCorutine(user));
+            StartCoroutine(RequestAPI.CreatePlayerCorutine(user));
         }
         else
         {
