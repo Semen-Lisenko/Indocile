@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class PauseBreak : MonoBehaviour
 {
     [SerializeField] public GameObject Canvas;
+    [SerializeField] public HoneyResources honeyResources;
     [SerializeField] public GameObject InterfaceParent;
     public bool inPauseBreakMenu = false;
     private void OnEnable()
@@ -37,13 +38,13 @@ public class PauseBreak : MonoBehaviour
     }
     public void QuitOutGame()
     {
-        SavesControl.SaveGame();
+        honeyResources.UpdateServerRecources();
         Application.Quit();
     }
     public void QuitInMain()
     {
+        honeyResources.UpdateServerRecources();
         inPauseBreakMenu = false;
-        SavesControl.SaveGame();
         Canvas.SetActive(false);
         Time.timeScale = 1;
         InterfaceParent.GetComponent<InterfaceContol>().SetOutGame();
