@@ -6,7 +6,10 @@ public class MainMenu : MonoBehaviour
 {
     [SerializeField] public GameObject SettingsCanvas;
     [SerializeField] public GameObject InterfaceParent;
+    [SerializeField] public GameObject regCanvas;
+    [SerializeField] public RegMenuControl regMenu;
     [SerializeField] public Button ContinueButton;
+
     public void OnEnable()
     {
         ContinueButton.enabled = PlayerPrefs.GetInt("FirstPlay") != 0;
@@ -14,8 +17,12 @@ public class MainMenu : MonoBehaviour
     public void StartNewGame()
     {
         PlayerPrefs.SetInt("FirstPlay", 1);
+        PlayerPrefs.SetString("LastUsername", "");
         PlayerPrefs.SetString("QuitScene", "planet1");
-        ContinueGame();
+        if(PlayerPrefs.GetString("LastUsername") == "")
+        {
+            StartCoroutine(regMenu.InvokeRegCanvas());
+        }
     }
     public void ContinueGame()
     {
@@ -25,9 +32,5 @@ public class MainMenu : MonoBehaviour
     public void Quit()
     {
         Application.Quit();
-    }
-    public void Settings()
-    {
-        SettingsCanvas.SetActive(SettingsCanvas.active ? false : true);
     }
 }

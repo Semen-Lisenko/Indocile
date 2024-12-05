@@ -38,12 +38,12 @@ public class PauseBreak : MonoBehaviour
     }
     public void QuitOutGame()
     {
-        honeyResources.UpdateServerRecources();
+        StartCoroutine(honeyResources.UpdateServerResources());
         Application.Quit();
     }
     public void QuitInMain()
     {
-        honeyResources.UpdateServerRecources();
+        StartCoroutine(honeyResources.UpdateServerResources());
         inPauseBreakMenu = false;
         Canvas.SetActive(false);
         Time.timeScale = 1;

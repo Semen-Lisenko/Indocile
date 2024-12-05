@@ -3,17 +3,9 @@ using TMPro;
 using UnityEngine;
 public class APIControl : MonoBehaviour
 {
-    public static List<int> ShopCart = new List<int>(0);
-    
-    public static float money;
-    public static float totalSum;
-
     public RequestAPI RequestAPI;
 
     public TMP_InputField RegUserNameF;
-    public TMP_InputField RegEnergyHF;
-    public TMP_InputField RegBuildHF;
-    public TMP_InputField RegEatHF;
     public TMP_InputField RegPasswordF;
 
     public TMP_InputField AutUserNameF;
@@ -24,15 +16,12 @@ public class APIControl : MonoBehaviour
     public TMP_InputField ShopBuildHF;
     public TMP_InputField ShopEnergyHF;
 
-    public TMP_InputField UpdUserNameF;
-    public TMP_InputField UpdUserEatHF;
-    public TMP_InputField UpdUserBuildHF;
-    public TMP_InputField UpdUserEnergyHF;
-
     public TMP_InputField UpdShopNameF;
     public TMP_InputField UpdShopEatHF;
     public TMP_InputField UpdShopBuildHF;
     public TMP_InputField UpdShopEnergyHF;
+    public TMP_InputField UpdShopCryptF;
+    public TMP_InputField UpdShopEtherHF;
     public void CreateUser()
     {
         if (RegUserNameF.text != "" && RegPasswordF.text != "")
@@ -42,9 +31,6 @@ public class APIControl : MonoBehaviour
             user.resources.money = 100;
             user.resources.crypt = 1;
             user.resources.ether = 10;
-            user.resources.buildHoney = int.Parse(RegBuildHF.text) == 0 ? 0 : int.Parse(RegBuildHF.text);
-            user.resources.eatHoney = int.Parse(RegEatHF.text) == 0 ? 0 : int.Parse(RegEatHF.text);
-            user.resources.energyHoney = int.Parse(RegEnergyHF.text) == 0 ? 0 : int.Parse(RegEnergyHF.text);
             user.password = RegPasswordF.text;
             PlayerPrefs.SetString("LastUsername", user.name);
             PlayerPrefs.SetString("LastPassword", user.password);
@@ -70,33 +56,25 @@ public class APIControl : MonoBehaviour
             Debug.Log("Fill all fields");
         }
     }
-    private void Start()
+    public void CreateUserShop()
     {
-        for(int i = 0; i < ShopCart.Count; i++)
+        if (ShopNameF.text != "")
         {
-            ShopCart[i] = 0;
-        }
-    }
-    public static void AddToTotalSum(float cost)
-    {
-        totalSum += cost;
-    }
-    public void BuyCart()
-    {
-        if(totalSum > money)
-        {
-            return;
+            Shop shop = new Shop();
+            shop.name = ShopNameF.text;
+            shop.resources.crypt = 1;
+            shop.resources.ether = 10;
+            shop.resources.buildHoney = int.Parse(ShopBuildHF.text) == 0 ? 0 : int.Parse(ShopBuildHF.text);
+            shop.resources.eatHoney = int.Parse(ShopEatHF.text) == 0 ? 0 : int.Parse(ShopEatHF.text);
+            shop.resources.energyHoney = int.Parse(ShopEnergyHF.text) == 0 ? 0 : int.Parse(ShopEnergyHF.text);
+            PlayerPrefs.SetString("LastShopName", ShopNameF.text);  
+            User user = new User();
+            user.name = PlayerPrefs.GetString("LastUsername");
+            StartCoroutine(RequestAPI.CreatePlayerShopCorutine(shop,user));
         }
         else
         {
-            int[] PlayerProducts = new int[ShopCart.Count];
-            money -= totalSum;
-            for (int i = 0; i < ShopCart.Count; i++)
-            {
-                PlayerProducts[i] += ShopCart[i];
-                ShopCart[i] = 0;
-            }
-
+            Debug.Log("Fill all fields");
         }
     }
 }

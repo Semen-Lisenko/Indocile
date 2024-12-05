@@ -10,10 +10,13 @@ public class HoneyResources : MonoBehaviour
     public RequestAPI _RequestAPI;
     public void Start()
     {
-        User user = new User();
-        user.name = PlayerPrefs.GetString("LastUsername");
-        _RequestAPI.GetPlayerResourcesCorutine(user, LoadResources);
-        StartCoroutine(UpdateServerRecources());
+        if (PlayerPrefs.GetString("LastUsername") != "")
+        {
+            User user = new User();
+            user.name = PlayerPrefs.GetString("LastUsername");
+            StartCoroutine(_RequestAPI.GetPlayerResourcesCorutine(user, LoadResources));
+        }
+        StartCoroutine(UpdateServerResources());
     }
 
     void Update()
@@ -60,15 +63,20 @@ public class HoneyResources : MonoBehaviour
             buildingHoney -= amount;
         }
     }
-    public IEnumerator UpdateServerRecources()
+    public IEnumerator UpdateServerResources()
     {
-        User user = new User();
-        user.name = PlayerPrefs.GetString("LastUsername");
-        user.password = PlayerPrefs.GetString("LastPassword");
-        user.resources.eatHoney = eatingHoney;
-        user.resources.buildHoney = buildingHoney;
-        user.resources.energyHoney = energyHoney;
-        StartCoroutine(_RequestAPI.PutPlayerResourcesCorutine(user));
+        if(PlayerPrefs.GetString("LastUsername") != "")
+        {
+            User user = new User();
+            user.name = PlayerPrefs.GetString("LastUsername");
+            user.password = PlayerPrefs.GetString("LastPassword");
+            user.resources.eatHoney = eatingHoney;
+            user.resources.buildHoney = buildingHoney;
+            user.resources.energyHoney = energyHoney;
+            Debug.Log(user.name);
+            StartCoroutine(_RequestAPI.PutPlayerResourcesCorutine(user));
+        }
         yield return new WaitForSecondsRealtime(180f);
+        StartCoroutine(UpdateServerResources());
     }
 }
