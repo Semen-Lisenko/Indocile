@@ -62,7 +62,6 @@ public class HoneyResources : MonoBehaviour
     }
     public IEnumerator UpdateServerRecources()
     {
-        yield return new WaitForSecondsRealtime(180f);
         User user = new User();
         user.name = PlayerPrefs.GetString("LastUsername");
         user.password = PlayerPrefs.GetString("LastPassword");
@@ -70,5 +69,6 @@ public class HoneyResources : MonoBehaviour
         user.resources.buildHoney = buildingHoney;
         user.resources.energyHoney = energyHoney;
         StartCoroutine(_RequestAPI.PutPlayerResourcesCorutine(user));
+        yield return new WaitForSecondsRealtime(180f);
     }
 }

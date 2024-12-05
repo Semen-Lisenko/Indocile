@@ -879,7 +879,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1856253393}
-  - component: {fileID: 1856253392}
+  - component: {fileID: 1856253395}
   - component: {fileID: 1856253394}
   m_Layer: 0
   m_Name: BuildingManager
@@ -887,20 +887,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1856253392
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1856253391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c190fc2c9d18c04dba3ad9e3af219be, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  buildingPrefab: {fileID: 7657000865937314174, guid: dde4018ba4e0be54f86506bae73badd3, type: 3}
+  m_IsActive: 0
 --- !u!4 &1856253393
 Transform:
   m_ObjectHideFlags: 0
@@ -925,12 +912,30 @@ MonoBehaviour:
   m_GameObject: {fileID: 1856253391}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff61c9d13a9bcd94bba1deafd0059db5, type: 3}
+  m_Script: {fileID: 11500000, guid: a769764e22fe9204e9e955accb8530ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildings: []
+  buildingSystem: {fileID: 0}
+  buildingButtons: []
+--- !u!114 &1856253395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1856253391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d30bcffc9ee603d41a34b9f0bf5b5db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   planetCenter: {fileID: 554378780}
-  radius: 5.4
+  buildingUI: {fileID: 1856253394}
+  radius: 4.5
+  buildingMenu: {fileID: 0}
+  buildingDatas: []
+  buildingPrefab: {fileID: 0}
+  previewObject: {fileID: 0}
 --- !u!1 &2120541570
 GameObject:
   m_ObjectHideFlags: 0
