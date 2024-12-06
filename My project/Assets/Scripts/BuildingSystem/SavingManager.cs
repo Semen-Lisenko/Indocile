@@ -9,13 +9,19 @@ public class SavingManager : MonoBehaviour
     private string saveFilePath;
     public List<Building> buildingList = new List<Building>();
 
-    void Start()
+     public void Start()
     {
         string fileName = SceneManager.GetActiveScene().name;
         saveFilePath = Path.Combine(Application.streamingAssetsPath, fileName + ".json");
         LoadBuildings();
+
+        // SceneManager.sceneUnloaded += OnSceneUnloaded;
     }
 
+    // private void OnSceneUnloaded(Scene current)
+    // {
+    //     SaveBuildings();
+    // }
     public void SaveBuildings()
     {
         List<BuildingSaveData> saveDataList = new List<BuildingSaveData>();

@@ -30,7 +30,6 @@ public class BuildingSystem : MonoBehaviour
         buildingMenu.SetActive(false);
         previewObject.SetActive(false);
 
-        HoneyResources.buildingHoney += 100;
         savingManager = GetComponent<SavingManager>();
     }
 
