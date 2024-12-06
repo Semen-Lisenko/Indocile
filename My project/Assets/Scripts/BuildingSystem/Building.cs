@@ -32,10 +32,19 @@ public class Building : MonoBehaviour
     public bool isInOtherBuilding = false;
 
     public bool isOpened = false;
+    public bool isCreated = false;
 
     void Start()
     {
-        sceneName = SceneManager.GetActiveScene().name;
+        if (!isCreated)
+        {
+            income = buildingData.income;
+        }
+        else
+        {
+
+        }
+        sceneName = SceneManager.GetActiveScene().name; 
 
         if (placed)
         {
