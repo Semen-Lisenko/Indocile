@@ -4,7 +4,6 @@ using UnityEngine;
 public class DialogueDisplay : MonoBehaviour
 {
     private DialogueWindow dialogueData;
-
     public GameObject panel;
 
     bool isDisplaying;

@@ -11,6 +11,7 @@ public class BuildingSaveData
 {
     public string buildingName;
     public int level;
+    public int income;
     public string sceneName;
     public bool placed;
     public bool isInOtherBuilding;
@@ -35,7 +36,6 @@ public class Building : MonoBehaviour
     void Start()
     {
         sceneName = SceneManager.GetActiveScene().name;
-        income = buildingData.income;
 
         if (placed)
         {
@@ -59,7 +59,10 @@ public class Building : MonoBehaviour
     //     isOpened = !isOpened;
     //     panel.SetActive(isOpened);
     // }
-
+    public void OnCreated(int income)
+    {
+        this.income = income;
+    }
 
     void AddEnergyHoney() => HoneyResources.AddEnergyHoney(income);
     void AddEatingHoney() => HoneyResources.AddEatingHoney(income);

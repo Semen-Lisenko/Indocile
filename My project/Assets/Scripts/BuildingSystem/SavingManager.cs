@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.SceneManagement; // Не забудьте добавить этот using
+using UnityEngine.SceneManagement;
 
 public class SavingManager : MonoBehaviour
 {
@@ -11,13 +11,9 @@ public class SavingManager : MonoBehaviour
 
     void Start()
     {
-        saveFilePath = Path.Combine(Application.streamingAssetsPath, "buildings.json");
+        string fileName = SceneManager.GetActiveScene().name;
+        saveFilePath = Path.Combine(Application.streamingAssetsPath, fileName + ".json");
         LoadBuildings();
-    }
-
-    void Update()
-    {
-        
     }
 
     public void SaveBuildings()
@@ -29,10 +25,10 @@ public class SavingManager : MonoBehaviour
             BuildingSaveData data = new BuildingSaveData
             {
                 buildingName = building.buildingData.buildingName,
+                income = building.income,
                 position = building.gameObject.transform.position,
                 rotation = building.gameObject.transform.rotation,
                 prefab = building.buildingData.prefab,
-                sceneName = building.sceneName,
                 level = building.level,
                 placed = building.placed,
                 isInOtherBuilding = building.isInOtherBuilding
@@ -57,16 +53,10 @@ public class SavingManager : MonoBehaviour
         Serialization<BuildingSaveData> data = JsonUtility.FromJson<Serialization<BuildingSaveData>>(json);
         List<Building> buildings = new List<Building>();
 
-        string currentSceneName = SceneManager.GetActiveScene().name; // Получаем имя текущей сцены
-
         foreach (var buildingData in data.items)
         {
-            // Проверяем, совпадает ли sceneName с текущей сценой
-            if (buildingData.sceneName == currentSceneName)
-            {
-                Building building = CreateBuilding(buildingData);
-                buildings.Add(building);
-            }
+            Building building = CreateBuilding(buildingData);
+            buildings.Add(building);
         }
 
         return buildings;
@@ -77,9 +67,8 @@ public class SavingManager : MonoBehaviour
         GameObject buildingObject = Instantiate(data.prefab);
         Building building = buildingObject.GetComponent<Building>();
         building.level = data.level;
-        building.sceneName = data.sceneName;
+        building.income = data.income;
         building.placed = data.placed;
-        building.income = data.level * building.buildingData.income;
         building.transform.position = data.position;
         building.transform.rotation = data.rotation;
         building.isInOtherBuilding = data.isInOtherBuilding;

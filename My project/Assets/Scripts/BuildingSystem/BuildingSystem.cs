@@ -32,8 +32,6 @@ public class BuildingSystem : MonoBehaviour
 
         HoneyResources.buildingHoney += 100;
         savingManager = GetComponent<SavingManager>();
-
-        savingManager.LoadBuildings();
     }
 
 
@@ -41,29 +39,7 @@ public class BuildingSystem : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0) && isBuildingActive == false)
         {
-            Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-
-            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
-
-            if (hit.collider != null)
-            {
-                Building building = hit.collider.GetComponent<Building>();
-                if (building != null)
-                {
-                    // building.OnClick();
-                    building.Upgrade();
-                }
-                else if (hit.collider.gameObject == buildingMenu.gameObject)
-                {
-                    isOnPanel = true;
-                }
-                else
-                {
-                    isOnPanel = false;
-                    Debug.Log("Нет компонента Building");
-                }
-            }
-
+            Upgrade();
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
@@ -87,6 +63,33 @@ public class BuildingSystem : MonoBehaviour
                 PlaceBuilding();
             }
         }
+    }
+
+    void Upgrade()
+    {
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            RaycastHit2D hit = Physics2D.Raycast(mousePosition, Vector2.zero);
+
+            if (hit.collider != null)
+            {
+                Building building = hit.collider.GetComponent<Building>();
+                if (building != null)
+                {
+                    // building.OnClick();
+                    building.Upgrade();
+                    savingManager.SaveBuildings();
+                }
+                else if (hit.collider.gameObject == buildingMenu.gameObject)
+                {
+                    isOnPanel = true;
+                }
+                else
+                {
+                    isOnPanel = false;
+                    Debug.Log("Нет компонента Building");
+                }
+            }
     }
 
     void UpdatePreviewPosition()
