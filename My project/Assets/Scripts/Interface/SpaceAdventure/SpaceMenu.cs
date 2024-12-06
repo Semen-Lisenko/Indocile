@@ -58,7 +58,6 @@ public class SpaceMenu : MonoBehaviour
         {
             yield break;
         }
-        buildingSystem.savingManager.SaveBuildings(); // тест
         inAdventure = true;
         AdventureLoadScreen.SetActive(true);
         yield return new WaitForSeconds(ALSTimeOffset);
@@ -70,7 +69,6 @@ public class SpaceMenu : MonoBehaviour
 
         AdventureLoadScreen.SetActive(false);
         inAdventure = false;
-        buildingSystem.savingManager.LoadBuildings(); // тест
         yield break;
     }
 }

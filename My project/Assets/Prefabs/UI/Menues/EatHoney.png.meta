@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      EatHoney_0: 8002036944686986534
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
