@@ -9,4 +9,5 @@ public class BuildingData : ScriptableObject
     public int baseCost;
     public int income;
     public int[] upgradeCosts;
+    // public Sprite[] buildingLevels;
 }

@@ -13,7 +13,14 @@ public class SpaceMenu : MonoBehaviour
     [SerializeField] public float ALSTime;
     [SerializeField] public float ALSTimeOffset;
     public bool inAdventure = false;
+    public BuildingSystem buildingSystem;
 
+    void Start()
+    {
+        buildingSystem = GetComponent<BuildingSystem>();
+    }
+
+    
     public void Clear()
     {
         SelectedPlanetScene = "";
@@ -46,10 +53,12 @@ public class SpaceMenu : MonoBehaviour
     }
     public IEnumerator ChangePlanet()
     {
+
         if (Equals(SelectedPlanetScene, "") || Equals(SceneManager.GetActiveScene().name, SelectedPlanetScene))
         {
             yield break;
         }
+        buildingSystem.savingManager.SaveBuildings(); // тест
         inAdventure = true;
         AdventureLoadScreen.SetActive(true);
         yield return new WaitForSeconds(ALSTimeOffset);
@@ -61,6 +70,7 @@ public class SpaceMenu : MonoBehaviour
 
         AdventureLoadScreen.SetActive(false);
         inAdventure = false;
+        buildingSystem.savingManager.LoadBuildings(); // тест
         yield break;
     }
 }

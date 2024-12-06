@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66ba1530ede02d544b53687cc1dc3e85, type: 3}
   m_Name: EatingHoney
   m_EditorClassIdentifier: 
-  buildingName: 
-  prefab: {fileID: 0}
-  buildingType: 
+  buildingName: EatingHoney
+  prefab: {fileID: 6079895569013169483, guid: e539d920076f0194595db646c33b9ab1, type: 3}
+  buildingType: EatingHoneyFactory
   baseCost: 10
-  income: 50
+  income: 1
   upgradeCosts: 000000003200000064000000

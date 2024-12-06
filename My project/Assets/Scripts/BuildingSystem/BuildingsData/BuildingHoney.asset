@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: BuildingHoney
   m_EditorClassIdentifier: 
   buildingName: BuildingHoney
-  prefab: {fileID: 0}
+  prefab: {fileID: 9018674077609452461, guid: cde3197cd8a086941a6d412c1e14314c, type: 3}
   buildingType: BuildingHoneyFactory
   baseCost: 10
-  income: 20
+  income: 1
   upgradeCosts: 000000003200000064000000

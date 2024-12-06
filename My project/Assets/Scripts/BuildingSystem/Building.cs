@@ -1,18 +1,43 @@
 using System;
-using System.Collections;
 using Unity.VisualScripting;
 using UnityEngine;
+using System.IO;
+using System.Collections.Generic;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
+
+[Serializable]
+public class BuildingSaveData
+{
+    public string buildingName;
+    public int level;
+    public string sceneName;
+    public bool placed;
+    public bool isInOtherBuilding;
+    public Vector2 position;
+    public Quaternion rotation;
+    public GameObject prefab;
+}
+
 
 public class Building : MonoBehaviour
 {
     public BuildingData buildingData;
+    public GameObject panel;
     public int level = 0;
+    public string sceneName;
+    public int income;
     public bool placed = false;
     public bool isInOtherBuilding = false;
 
+    public bool isOpened = false;
+
     void Start()
     {
-        if (placed == true)
+        sceneName = SceneManager.GetActiveScene().name;
+        income = buildingData.income;
+
+        if (placed)
         {
             switch (buildingData.buildingType)
             {
@@ -28,24 +53,17 @@ public class Building : MonoBehaviour
             }
         }
     }
-    void AddEnergyHoney()
-    {
-        Debug.Log("5");
-        int amount = buildingData.income;
-        HoneyResources.AddEnergyHoney(amount);
-    }
-    void AddEatingHoney()
-    {
-        int amount = buildingData.income;
-        HoneyResources.AddEatingHoney(amount);
-    }
-    void AddBuildingHoney()
-    {
-        int amount = buildingData.income;
-        Debug.Log(amount);
-        HoneyResources.AddBuildingHoney(amount);
-    }
 
+    // public void OnClick()
+    // {
+    //     isOpened = !isOpened;
+    //     panel.SetActive(isOpened);
+    // }
+
+
+    void AddEnergyHoney() => HoneyResources.AddEnergyHoney(income);
+    void AddEatingHoney() => HoneyResources.AddEatingHoney(income);
+    void AddBuildingHoney() => HoneyResources.AddBuildingHoney(income);
 
     public int GetUpgradeCost()
     {
@@ -67,11 +85,14 @@ public class Building : MonoBehaviour
 
     public void Upgrade()
     {
+        Debug.Log("Upgraded");
         if (level < buildingData.upgradeCosts.Length)
         {
             level++;
             HoneyResources.RemoveBuildingHoney(GetUpgradeCost());
-            buildingData.income = buildingData.income * 2;
+            income *= 2;
+            // spriteRenderer.sprite = buildingData.buildingLevels[level - 1];
+
         }
     }
 }
