@@ -134,7 +134,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      electro-fabric_0: -173404671540440052
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
