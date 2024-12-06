@@ -72,6 +72,7 @@ public class SavingManager : MonoBehaviour
         building.transform.position = data.position;
         building.transform.rotation = data.rotation;
         building.isInOtherBuilding = data.isInOtherBuilding;
+        building.isCreated = true;
 
         buildingList.Add(building);
         return building;

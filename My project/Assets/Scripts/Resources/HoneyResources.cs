@@ -31,7 +31,6 @@ public class HoneyResources : MonoBehaviour
     public static void AddEnergyHoney(int amount)
     {
         energyHoney += amount;
-        Debug.Log(amount);
     }
     public static void AddEatingHoney(int amount)
     {
