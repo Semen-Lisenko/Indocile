@@ -62,6 +62,7 @@ public class SpaceMenu : MonoBehaviour
         AdventureLoadScreen.SetActive(true);
         yield return new WaitForSeconds(ALSTimeOffset);
 
+        savingManager.SaveBuildings();
         SceneManager.LoadScene(SelectedPlanetScene);
         Canvas.SetActive(false);
 
