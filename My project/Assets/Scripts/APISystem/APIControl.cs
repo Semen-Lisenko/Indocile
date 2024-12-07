@@ -28,6 +28,9 @@ public class APIControl : MonoBehaviour
         {
             User user = new User();
             user.name = RegUserNameF.text;
+            user.resources.eatHoney = 10;
+            user.resources.buildHoney = 10;
+            user.resources.energyHoney = 10;
             user.resources.money = 100;
             user.resources.crypt = 1;
             user.resources.ether = 10;

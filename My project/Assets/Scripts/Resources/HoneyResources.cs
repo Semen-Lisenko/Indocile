@@ -7,15 +7,10 @@ public class HoneyResources : MonoBehaviour
     public static int eatingHoney {get; set;}
     public static int buildingHoney  {get; set;}
 
-    public static bool firstTime = false;
 
     public RequestAPI _RequestAPI;
     public void Start()
     {
-        if (firstTime) // сохранить это
-        {
-            AddBuildingHoney(20);
-        }
         if (PlayerPrefs.GetString("LastUsername") != "")
         {
             User user = new User();
