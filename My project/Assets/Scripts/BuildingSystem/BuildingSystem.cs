@@ -27,6 +27,7 @@ public class BuildingSystem : MonoBehaviour
 
     void Start()
     {
+        // HoneyResources.buildingHoney = 100;
         buildingMenu.SetActive(false);
         previewObject.SetActive(false);
 
@@ -119,7 +120,7 @@ public class BuildingSystem : MonoBehaviour
             }
         }
 
-        if (!collisionDetected && HoneyResources.buildingHoney - selectedBuildingData.baseCost > 0 && isOnPanel == false)
+        if (!collisionDetected && HoneyResources.buildingHoney - selectedBuildingData.baseCost >= 0 && isOnPanel == false)
         {
             GameObject buildingInstance = Instantiate(selectedBuildingData.prefab, previewObject.transform.position, previewObject.transform.rotation);
             buildingInstance.name = selectedBuildingData.name;
