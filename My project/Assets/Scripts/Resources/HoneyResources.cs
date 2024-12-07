@@ -17,6 +17,12 @@ public class HoneyResources : MonoBehaviour
             user.name = PlayerPrefs.GetString("LastUsername");
             StartCoroutine(_RequestAPI.GetPlayerResourcesCorutine(user, LoadResources));
         }
+        else
+        {
+            energyHoney = 10;
+            eatingHoney = 10;
+            buildingHoney = 10;
+        }
         StartCoroutine(UpdateServerResources());
     }
 

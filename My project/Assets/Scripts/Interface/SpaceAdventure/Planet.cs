@@ -22,7 +22,10 @@ public class Planet : MonoBehaviour
     }
     public void Deselect()
     {
-        Animator.SetBool("IsSelected", false);
+        if(Animator != null)
+        {
+            Animator.SetBool("IsSelected", false);
+        }
     }
     private void OnDisable()
     {
