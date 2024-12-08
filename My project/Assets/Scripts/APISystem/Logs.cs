@@ -23,7 +23,6 @@ public class Logs
         }
     }
     public string comment;
-    public string shop_name;
     public string player_name;
     public Resources resources_changed;
 }

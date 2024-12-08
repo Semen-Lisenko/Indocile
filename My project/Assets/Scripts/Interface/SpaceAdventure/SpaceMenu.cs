@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class SpaceMenu : MonoBehaviour
 {
     public static Action DeselectOther;
+    public static Action OnSceneLoad;
     public static string SelectedPlanetScene = "";
 
     [SerializeField] public GameObject Canvas;
@@ -13,13 +14,6 @@ public class SpaceMenu : MonoBehaviour
     [SerializeField] public float ALSTime;
     [SerializeField] public float ALSTimeOffset;
     public bool inAdventure = false;
-    public BuildingSystem buildingSystem;
-
-    void Start()
-    {
-        buildingSystem = GetComponent<BuildingSystem>();
-    }
-
     
     public void Clear()
     {
@@ -53,7 +47,6 @@ public class SpaceMenu : MonoBehaviour
     }
     public IEnumerator ChangePlanet()
     {
-
         if (Equals(SelectedPlanetScene, "") || Equals(SceneManager.GetActiveScene().name, SelectedPlanetScene))
         {
             yield break;
@@ -62,7 +55,6 @@ public class SpaceMenu : MonoBehaviour
         AdventureLoadScreen.SetActive(true);
         yield return new WaitForSeconds(ALSTimeOffset);
 
-        savingManager.SaveBuildings();
         SceneManager.LoadScene(SelectedPlanetScene);
         Canvas.SetActive(false);
 

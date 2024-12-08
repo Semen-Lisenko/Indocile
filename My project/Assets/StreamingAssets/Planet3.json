@@ -1,1 +1,3 @@
-{"items":[{"buildingName":"BuildingHoney","level":1,"income":1,"sceneName":"","placed":true,"isInOtherBuilding":false,"position":{"x":-2.9306461811065676,"y":1.913455843925476},"rotation":{"x":0.0,"y":0.0,"z":0.4760769009590149,"w":0.8794036507606506},"prefab":{"instanceID":45928}},{"buildingName":"BuildingHoney","level":1,"income":1,"sceneName":"","placed":true,"isInOtherBuilding":false,"position":{"x":3.4850590229034426,"y":-0.32305338978767397},"rotation":{"x":0.0,"y":0.0,"z":-0.7390199899673462,"w":0.6736835837364197},"prefab":{"instanceID":45928}},{"buildingName":"BuildingHoney","level":1,"income":1,"sceneName":"","placed":true,"isInOtherBuilding":false,"position":{"x":-3.1850695610046388,"y":-1.450976014137268},"rotation":{"x":0.0,"y":0.0,"z":-0.8410007953643799,"w":-0.5410338640213013},"prefab":{"instanceID":45928}}]}
+{
+  "buildings": []
+}

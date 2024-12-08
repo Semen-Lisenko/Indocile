@@ -1603,7 +1603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d30bcffc9ee603d41a34b9f0bf5b5db2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  planetCenter: {fileID: 0}
+  planetCenter: {fileID: 1628233000}
   savingManager: {fileID: 929594290}
   buildingUI: {fileID: 0}
   radius: 3.5

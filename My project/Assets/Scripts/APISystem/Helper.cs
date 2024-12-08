@@ -1,7 +1,5 @@
 using System;
-
-[Serializable]
-public class User
+public class Helper
 {
     [Serializable]
     public struct Resources
@@ -12,7 +10,7 @@ public class User
         public int crypt;
         public int ether;
         public int money;
-        public Resources(int EnergyHoney, int BuildHoney, int EatHoney, int Crypt, int Ether,int Money)
+        public Resources(int EnergyHoney, int BuildHoney, int EatHoney, int Crypt, int Ether, int Money)
         {
             energyHoney = EnergyHoney;
             buildHoney = BuildHoney;
@@ -22,6 +20,5 @@ public class User
             money = Money;
         }
     }
-    public string name = "";
     public Resources resources;
 }

@@ -11,7 +11,7 @@ public class RequestAPI : MonoBehaviour
     public const string Logs = "logs/";
     public IEnumerator CreatePlayerCorutine(User user)
     {
-        UnityWebRequest request = UnityWebRequest.Post(URL + Users, JsonUtility.ToJson(user), "application/json");
+        UnityWebRequest request = UnityWebRequest.Post(URL + Users, JsonUtility.ToJson(user),"application/json");
         yield return request.SendWebRequest();
         if (request.result == UnityWebRequest.Result.Success)
         {
@@ -30,9 +30,18 @@ public class RequestAPI : MonoBehaviour
         yield return request.SendWebRequest();
         User user1 = JsonUtility.FromJson<User>(request.downloadHandler.text);
 
-        request = UnityWebRequest.Put(URL + Users + user.name + "/", JsonUtility.ToJson(user));
+        Helper help = new Helper();
+        help.resources.eatHoney = user.resources.eatHoney;
+        help.resources.energyHoney = user.resources.energyHoney;
+        help.resources.buildHoney = user.resources.buildHoney;
+        request = UnityWebRequest.Put(URL + Users + user.name + "/", JsonUtility.ToJson(help));
+        request.SetRequestHeader("Content-Type", "application/json");
+        yield return request.SendWebRequest();
+
+        request = UnityWebRequest.Get(URL + Users + user.name + "/");
         yield return request.SendWebRequest();
         User user2 = JsonUtility.FromJson<User>(request.downloadHandler.text);
+
         StartCoroutine(PostLogsCorutine(user1,user2,"Update resources"));
 
     }
@@ -78,26 +87,27 @@ public class RequestAPI : MonoBehaviour
         Logs logs = new Logs();
         logs.comment = comment;
         logs.player_name = data1.name;
-        logs.resources_changed.money = (data1.resources.money - data2.resources.money).ToString();
-        logs.resources_changed.crypt = (data1.resources.crypt - data2.resources.crypt).ToString();
-        logs.resources_changed.ether = (data1.resources.ether - data2.resources.ether).ToString();
-        logs.resources_changed.energyHoney = (data1.resources.energyHoney - data2.resources.energyHoney).ToString();
-        logs.resources_changed.eatHoney = (data1.resources.eatHoney - data2.resources.eatHoney).ToString();
-        logs.resources_changed.buildHoney = (data1.resources.buildHoney - data2.resources.buildHoney).ToString();
+        logs.resources_changed.money = (data2.resources.money - data1.resources.money).ToString();
+        logs.resources_changed.crypt = (data2.resources.crypt - data1.resources.crypt).ToString();
+        logs.resources_changed.ether = (data2.resources.ether - data1.resources.ether).ToString();
+        logs.resources_changed.energyHoney = (data2.resources.energyHoney - data1.resources.energyHoney).ToString();
+        logs.resources_changed.eatHoney = (data2.resources.eatHoney - data1.resources.eatHoney).ToString();
+        logs.resources_changed.buildHoney = (data2.resources.buildHoney - data1.resources.buildHoney).ToString();
         UnityWebRequest request = UnityWebRequest.Post(URL + Logs, JsonUtility.ToJson(logs), "application/json");
         yield return request.SendWebRequest();
+        Debug.Log(request.downloadHandler.text);
     }
     public IEnumerator PostLogsCorutine(Shop data1, Shop data2, string comment)
     {
         Logs logs = new Logs();
         logs.comment = comment;
         logs.player_name = data2.name;
-        logs.shop_name = data2.name;
         logs.resources_changed.crypt = (data1.resources.crypt - data2.resources.crypt).ToString();
         logs.resources_changed.ether = (data1.resources.ether - data2.resources.ether).ToString();
         logs.resources_changed.energyHoney = (data1.resources.energyHoney - data2.resources.energyHoney).ToString();
         logs.resources_changed.eatHoney = (data1.resources.eatHoney - data2.resources.eatHoney).ToString();
         logs.resources_changed.buildHoney = (data1.resources.buildHoney - data2.resources.buildHoney).ToString();
+        Debug.Log(JsonUtility.ToJson(logs));
         UnityWebRequest request = UnityWebRequest.Post(URL + Logs, JsonUtility.ToJson(logs), "application/json");
         yield return request.SendWebRequest();
         Debug.Log(request.downloadHandler.text);

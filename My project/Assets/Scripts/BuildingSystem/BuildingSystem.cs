@@ -51,7 +51,10 @@ public class BuildingSystem : MonoBehaviour
         {
             isBuildingActive = !isBuildingActive;
             buildingMenu.SetActive(isBuildingActive);
-            previewObject.SetActive(isBuildingActive);
+            if(previewObject != null)
+            {
+                previewObject.SetActive(isBuildingActive);
+            }
         }
 
          if (isBuildingActive && selectedBuildingData != null && !buildingPlaced) // Проверяем флаг
@@ -94,48 +97,55 @@ public class BuildingSystem : MonoBehaviour
 
     void UpdatePreviewPosition()
     {
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePosition.z = planetCenter.transform.position.z;
+        if(previewObject != null)
+        {
+            Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            mousePosition.z = planetCenter.transform.position.z;
 
-        Vector3 direction = (mousePosition - planetCenter.transform.position).normalized;
-        Vector3 position = planetCenter.transform.position + direction * radius;
-        previewObject.transform.position = position;
+            Vector3 direction = (mousePosition - planetCenter.transform.position).normalized;
+            Vector3 position = planetCenter.transform.position + direction * radius;
+            previewObject.transform.position = position;
 
-        Vector3 rotation = previewObject.transform.position - planetCenter.transform.position;
-        float angle = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
-        previewObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+            Vector3 rotation = previewObject.transform.position - planetCenter.transform.position;
+            float angle = Mathf.Atan2(rotation.y, rotation.x) * Mathf.Rad2Deg;
+            previewObject.transform.rotation = Quaternion.Euler(new Vector3(0, 0, angle - 90));
+        }
     }
 
     void PlaceBuilding()
     {
-        Collider2D[] colliders = Physics2D.OverlapCircleAll(previewObject.transform.position, 0.5f);
-
-        bool collisionDetected = false;
-        foreach (Collider2D collider in colliders)
+        if(previewObject != null)
         {
-            if (collider.gameObject != previewObject && collider.GetComponent<Building>() != null)
+            Collider2D[] colliders = Physics2D.OverlapCircleAll(previewObject.transform.position, 0.5f);
+
+            bool collisionDetected = false;
+            foreach (Collider2D collider in colliders)
             {
-                collisionDetected = true;
-                break;
+                if (collider.gameObject != previewObject && collider.GetComponent<Building>() != null)
+                {
+                    collisionDetected = true;
+                    break;
+                }
             }
+
+            if (!collisionDetected && HoneyResources.buildingHoney - selectedBuildingData.baseCost >= 0 && isOnPanel == false)
+            {
+                GameObject buildingInstance = Instantiate(selectedBuildingData.prefab, previewObject.transform.position, previewObject.transform.rotation);
+                buildingInstance.name = selectedBuildingData.name;
+                Building buildingComponent = buildingInstance.GetComponent<Building>();
+                buildingComponent.placed = true;
+
+                savingManager.buildingList.Add(buildingComponent);
+
+                Renderer buildingRenderer = buildingInstance.GetComponent<Renderer>();
+                if (buildingRenderer != null) buildingRenderer.material.color = Color.white;
+                HoneyResources.RemoveBuildingHoney(selectedBuildingData.baseCost);
+
+                buildingPlaced = true; // Устанавливаем флаг в true после установки здания
+            }
+            Destroy(previewObject);
         }
-
-        if (!collisionDetected && HoneyResources.buildingHoney - selectedBuildingData.baseCost >= 0 && isOnPanel == false)
-        {
-            GameObject buildingInstance = Instantiate(selectedBuildingData.prefab, previewObject.transform.position, previewObject.transform.rotation);
-            buildingInstance.name = selectedBuildingData.name;
-            Building buildingComponent = buildingInstance.GetComponent<Building>();
-            buildingComponent.placed = true;
-
-            savingManager.buildingList.Add(buildingComponent);
-
-            Renderer buildingRenderer = buildingInstance.GetComponent<Renderer>();
-            if (buildingRenderer != null) buildingRenderer.material.color = Color.white;
-            HoneyResources.RemoveBuildingHoney(selectedBuildingData.baseCost);
-
-            buildingPlaced = true; // Устанавливаем флаг в true после установки здания
-        }
-        Destroy(previewObject);
+        
     }
 
     public void SelectBuilding(BuildingData buildingData)

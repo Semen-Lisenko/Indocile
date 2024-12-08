@@ -31,7 +31,7 @@ public class PlanetsDialogueManager : MonoBehaviour
         TMP_Text title = panelObject.transform.Find("Title").GetComponent<TMP_Text>();
         TMP_Text description = panelObject.transform.Find("Description").GetComponent<TMP_Text>();
 
-        image.sprite = dialogueData.personImage; // Установите спрайт
+        image.sprite = dialogueData.personImage; 
         title.text = dialogueData.dialogueTitle;
         description.text = dialogueData.description;
 
@@ -40,8 +40,4 @@ public class PlanetsDialogueManager : MonoBehaviour
         Debug.Log("Panel active: " + panelObject.activeSelf);
     }
 
-    void Update()
-    {
-        Debug.Log(dialogueWindows[0].wasOnPlanet);
-    }
 }

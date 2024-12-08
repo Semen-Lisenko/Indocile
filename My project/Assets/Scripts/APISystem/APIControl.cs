@@ -34,9 +34,7 @@ public class APIControl : MonoBehaviour
             user.resources.money = 100;
             user.resources.crypt = 1;
             user.resources.ether = 10;
-            user.password = RegPasswordF.text;
             PlayerPrefs.SetString("LastUsername", user.name);
-            PlayerPrefs.SetString("LastPassword", user.password);
             StartCoroutine(RequestAPI.CreatePlayerCorutine(user));
         }
         else
@@ -50,9 +48,7 @@ public class APIControl : MonoBehaviour
         {
             User user = new User();
             user.name = AutUserNameF.text;
-            user.password = AutPasswordF.text;
             PlayerPrefs.SetString("LastUsername", user.name);
-            PlayerPrefs.SetString("LastPassword", user.password);
         }
         else
         {
